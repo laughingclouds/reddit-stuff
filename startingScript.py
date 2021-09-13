@@ -1,14 +1,29 @@
-"""
-Currently working on the feature to post multiple images from a any folder
-in a specific sub. We will use the function `submit_gallery()` for this purpose.
-"""
-from redditInstance import *
-from getListImages import getListImages
+from typing import Union
+from configparser import ConfigParser
 
+import praw
+from praw.models.helpers import SubredditHelper
+from praw.models import Submission
+from praw.reddit import Subreddit
 
-images = getListImages(cfg['Gallery']['path'])
+cfg = ConfigParser()
+cfg.read('config.cfg')
 
-# for submission in subreddit.hot(limit=10):
-#     print(submission.title)
+reddit = praw.Reddit(
+    client_id = cfg['DEFAULT']['client_id'],
+    client_secret = cfg['DEFAULT']['client_secret'],
+    user_agent = cfg['DEFAULT']['user_agent'],
+    username = cfg['OAuth']['username'],
+    password = cfg['OAuth']['password'],
+)
 
-subreddit.submit_gallery(cfg['Gallery']['title'], images)
+subreddit: Union[SubredditHelper, Subreddit] = reddit.subreddit(cfg['Sub']['name2'])
+
+submission: Submission # type annotating
+for submission in subreddit.new(limit=1):
+    print(submission.id)
+
+print('\n\n')
+
+for submission in subreddit.hot(limit=1):
+    print(submission.title)
