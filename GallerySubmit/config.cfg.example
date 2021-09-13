@@ -1,0 +1,13 @@
+[DEFAULT]
+client_id = APP_CLIENT_NAME
+client_secret = APP_CLIENT_SECRET
+user_agent = "APP_NAME;v0.0.1 (by u/REDDIT_USERNAME)"
+
+[OAuth]
+username = REDDIT_USERNAME
+password = REDDIT_PASSWORD
+
+[Gallery]
+title = Test title for a gallery of photos
+path = ./images
+exts = ["png", "jpg", "jpeg", "svg", "gif"]
