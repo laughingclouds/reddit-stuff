@@ -9,7 +9,7 @@ to be uploaded to reddit.
 The account that would upload the image, the directory that contains the required images, all that information
 is within the configuration file `config.cfg`.
 
-NOTE: The caption of the media uploaded will be the same as it's filename, so make sure to change it to your
+NOTE: The caption of the media uploaded will be the same as its filename, so make sure to change it to your
 liking before running the code.
 NOTE: For now the code does not resolve the filenames to something meaningful. So name the file with whitespaces."""
 from os import listdir
