@@ -14,7 +14,7 @@ liking before running the code.
 NOTE: For now the code does not resolve the filenames to something meaningful. So name the file with whitespaces."""
 from os import listdir
 
-from os.path import isfile, join, dirname
+from os.path import isfile, join
 from configparser import ConfigParser
 
 from utils.models import sub, dictStr, listDictStr
