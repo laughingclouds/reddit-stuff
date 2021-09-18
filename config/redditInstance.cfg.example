@@ -2,16 +2,10 @@
 client_id = APP_CLIENT_NAME
 client_secret = APP_CLIENT_SECRET
 user_agent = "APP_NAME;v0.0.1 (by u/REDDIT_USERNAME)"
-path = ./images     # DEFAULT path
 
 [OAuth]
 username = REDDIT_USERNAME
 password = REDDIT_PASSWORD
-
-[Gallery]
-title = TITLE_OF_THE_POST
-# path =    # CUSTOM_PATH
-exts = "png jpg jpeg svg gif"
 
 [Sub]
 name = SUBREDDIT_NAME

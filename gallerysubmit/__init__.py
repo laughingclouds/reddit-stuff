@@ -12,25 +12,23 @@ is within the configuration file `config.cfg`.
 NOTE: The caption of the media uploaded will be the same as its filename, so make sure to change it to your
 liking before running the code.
 NOTE: For now the code does not resolve the filenames to something meaningful. So name the file with whitespaces."""
-from os import listdir
-from typing import Union
+from os import listdir, setxattr
+
 from os.path import isfile, join, dirname
-
-import praw
-from praw.reddit import Subreddit
-from praw.models.helpers import SubredditHelper
-
 from configparser import ConfigParser
 
+from utils.models import sub, dictStr, listDictStr
+from utils.configworker import getSectionKeyList
 
-cfg = ConfigParser()
-cfg.read(join(dirname(__file__), "config.cfg"))
+
+__cfg = ConfigParser()
+__cfg.read("config/gallerysubmit.cfg")
 
 #For dealing with the fetching of all the file names in the `images` folder
 def __returnNameExt(fileName: str): return fileName.split('.')    # needs to be a file to not get errors
 
 
-def __getListImages(basePath) -> list[dict[str, str]]:
+def __getListImages(basePath) -> listDictStr:
     """Return list[dict[`image_path`: `<path>`, `caption`: `<caption>`]]"""
     
     return [
@@ -40,7 +38,7 @@ def __getListImages(basePath) -> list[dict[str, str]]:
     ]
 
 
-def __dictObjectElement(basepath, fileName) -> dict[str, str]:
+def __dictObjectElement(basepath, fileName) -> dictStr:
     """Return dict[`image_path`: `<path>`, `caption`: `<caption>`]"""
     return {
         'image_path': join(basepath, fileName),
@@ -50,22 +48,22 @@ def __dictObjectElement(basepath, fileName) -> dict[str, str]:
 
 def __checkExt(basePath: str, fileName: str) -> bool:
     """Will return true if filename has any of the accepted extensions defined
-    in config.cfg `ext` is file extension of file"""
+    in config.__cfg `ext` is file extension of file"""
     
     if not isfile(join(basePath, fileName)):
         return False
          
     ext = __returnNameExt(fileName)[-1].lower()
-    return ext in cfg['Gallery']['exts']
+    return ext in __cfg['Gallery']['exts']
+    
 
-# Initializing the Reddit instance
-reddit = praw.Reddit(
-    client_id = cfg['DEFAULT']['client_id'],
-    client_secret = cfg['DEFAULT']['client_secret'],
-    user_agent = cfg['DEFAULT']['user_agent'],
-    username = cfg['OAuth']['username'],
-    password = cfg['OAuth']['password'],
-)
+def gallerySubmit(subreddit: sub) -> None:
+    """Takes a `Subreddit` instance\n
+    Uses `__getListImages()` to get the info on the images to submit
+    Finally calls `submit_gallery()` to submit."""
 
-subreddit: Union[SubredditHelper, Subreddit] = reddit.subreddit(cfg['Sub']['name'])
-subreddit.submit_gallery(cfg['Gallery']['title'], __getListImages(cfg['Gallery']['path']))
+    subreddit.submit_gallery(
+        __cfg['Gallery']['title'], __getListImages(__cfg['Gallery']['path'])
+    )
+
+subNames = getSectionKeyList(__cfg, 'Sub')

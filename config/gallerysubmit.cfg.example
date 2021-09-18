@@ -1,0 +1,11 @@
+[DEFAULT]
+path = ./images     # DEFAULT_PATH
+
+[Gallery]
+title = TITLE_OF_THE_POST
+# path =    # CUSTOM_PATH
+exts = "png jpg jpeg svg gif"
+
+[Sub]
+name = SUBREDDIT_NAME
+name1 = SUBREDDIT_NAME_ONE
