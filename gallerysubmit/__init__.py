@@ -13,9 +13,10 @@ NOTE: The caption of the media uploaded will be the same as its filename, so mak
 liking before running the code.
 NOTE: For now the code does not resolve the filenames to something meaningful. So name the file with whitespaces."""
 from os import listdir
-
 from os.path import isfile, join
 from configparser import ConfigParser
+
+from praw.models import Submission
 
 from utils.models import sub, dictStr, listDictStr
 from utils.configworker import getSectionKeyList
@@ -57,12 +58,12 @@ def __checkExt(basePath: str, fileName: str) -> bool:
     return ext in __cfg['Gallery']['exts']
     
 
-def gallerySubmit(subreddit: sub) -> None:
+def gallerySubmit(subreddit: sub) -> Submission:
     """Takes a `Subreddit` instance\n
     Uses `__getListImages()` to get the info on the images to submit
     Finally calls `submit_gallery()` to submit."""
 
-    subreddit.submit_gallery(
+    return subreddit.submit_gallery(
         __cfg['Gallery']['title'], __getListImages(__cfg['Gallery']['path'])
     )
 
