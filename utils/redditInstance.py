@@ -6,16 +6,18 @@ from configparser import ConfigParser
 
 import praw
 from utils.models import sub
+from utils.configworker import getSectionKeyList
 
-cfg = ConfigParser()
-cfg.read('./config/redditInstance.cfg')
+__cfg = ConfigParser()
+__cfg.read('./config/redditInstance.cfg')
 
 reddit = praw.Reddit(
-    client_id = cfg['DEFAULT']['client_id'],
-    client_secret = cfg['DEFAULT']['client_secret'],
-    user_agent = cfg['DEFAULT']['user_agent'],
-    username = cfg['OAuth']['username'],
-    password = cfg['OAuth']['password'],
+    client_id = __cfg['DEFAULT']['client_id'],
+    client_secret = __cfg['DEFAULT']['client_secret'],
+    user_agent = __cfg['DEFAULT']['user_agent'],
+    username = __cfg['OAuth']['username'],
+    password = __cfg['OAuth']['password'],
 )
 
+subNames = getSectionKeyList(__cfg, "Sub")
 # subreddit: sub = reddit.subreddit(cfg['Sub']['name'])
